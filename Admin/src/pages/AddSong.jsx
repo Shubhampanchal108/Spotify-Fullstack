@@ -28,7 +28,7 @@ const AddSong = () => {
       formData.append('audio',song);
       formData.append('album',album);
 
-      const response = await axios.post(`${url}/api/song/add`, formData); //Send Form data to api. 
+      const response = await axios.post(`${url}/api/song/add`, formData); //Send Form data to server. 
 
       if(response.data.success){
         toast.success("Song added successfully");
@@ -106,7 +106,7 @@ const AddSong = () => {
         <p>Album</p>
         <select onChange={(e)=>setAlbum(e.target.value)} value={album} className='bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[140px]'>
           <option value='none'>None</option>
-          {albumData.map((item, index)=>(<option value='item.name' key={index}>{item.name}</option>))}
+          {albumData.map((item, index)=>(<option value={item.name} key={index}>{item.name}</option>))}
         </select>
       </div>
 

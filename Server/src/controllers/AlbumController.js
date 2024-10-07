@@ -26,6 +26,7 @@ const addAlbum = async (req, res) => {
     }
 };
 
+//Fetching All the albums
 const listAlbum = async (req, res) => {
     try {
         const allAlbums = await albumModel.find({});
@@ -36,6 +37,7 @@ const listAlbum = async (req, res) => {
     }
 };
 
+//Remove Album from list
 const removeAlbum = async (req, res) => {
     try {
         await albumModel.findByIdAndDelete(req.body.id);
