@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { assets } from "../assets/frontend-assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
 
-const DisplayAlbum = ({Album}) => {
+const DisplayAlbum = ({ Album }) => {
   const { id } = useParams();
   const [albumData, setAlbumData] = useState("");
   const { platWithId, albumsData, songsData } = useContext(PlayerContext);
@@ -53,22 +53,24 @@ const DisplayAlbum = ({Album}) => {
         <img src={assets.clock_icon} className="m-auto w-4" alt="" />
       </div>
       <hr />
-      {songsData.map((item, index) => (
-        <div
-          onClick={() => platWithId(item._id)}
-          key={index}
-          className="grid grid-cols-3 sm:grid-cols-4  gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff26] cursor-pointer "
-        >
-          <p className="text-white">
-            <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
-            <img src={item.image} className="inline w-10 mr-5" alt="" />
-            {item.name}
-          </p>
-          <p className="text-[15px]">{albumData.name}</p>
-          <p className="text-[15px] hidden sm:block">5 days ago</p>
-          <p className="text-[15px] text-center">{item.duration}</p>
-        </div>
-      ))}
+      {songsData
+        .filter((item) => item.album === albumData.name) // Filter songs by album name
+        .map((item, index) => (
+          <div
+            onClick={() => platWithId(item._id)}
+            key={index}
+            className="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff26] cursor-pointer"
+          >
+            <p className="text-white">
+              <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
+              <img src={item.image} className="inline w-10 mr-5" alt="" />
+              {item.name}
+            </p>
+            <p className="text-[15px]">{albumData.name}</p>
+            <p className="text-[15px] hidden sm:block">5 days ago</p>
+            <p className="text-[15px] text-center">{item.duration}</p>
+          </div>
+        ))}
     </>
   ) : null;
 };
