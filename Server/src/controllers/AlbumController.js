@@ -1,5 +1,11 @@
 import { v2 as cloudinary } from "cloudinary";
+import 'dotenv/config';
 import albumModel from "../Models/albumModel.js";
+import jwt from "jsonwebtoken"
+
+const Password = process.env.PASSWORD
+const Username = process.env.ADMIN
+const jwt_Secret = process.env.JWT_SECRET
 
 const addAlbum = async (req, res) => {
     try {
@@ -48,4 +54,26 @@ const removeAlbum = async (req, res) => {
     }
 };
 
-export { addAlbum, listAlbum, removeAlbum };
+const adminLogin = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({ msg: "Fields are required" });
+        }
+
+        if (username == Username && password == Password) {
+            const token = jwt.sign({Username}, jwt_Secret, { expiresIn: "1h" });
+
+            return res.status(200).json({ msg: "Login successfully", jwt_token: token , success: true});
+        } else {
+            return res.status(401).json({ msg: "Oops! Invalid credentials" });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error", error: error.message });
+    }
+};
+
+
+export { addAlbum, listAlbum, removeAlbum, adminLogin};

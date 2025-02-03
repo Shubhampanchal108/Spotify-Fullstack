@@ -5,7 +5,7 @@ import { url } from '../App';
 import { toast } from 'react-toastify';
 
 
-const AddAlbum = () => {
+const AddAlbum = ({token}) => {
   const [image, setImage ] = useState(false);
   const [color, setColor] = useState("#aaa");
   const [name, setName] = useState('');
@@ -24,7 +24,11 @@ const AddAlbum = () => {
       formData.append('image', image);
       formData.append('bgColor', color);
 
-      const response = await axios.post(`${url}/api/album/add`, formData)
+      
+
+      const response = await axios.post(`${url}/api/album/add`, formData, {headers: {
+        'authorization': token,
+      }})
 
       if(response.data.success){
         toast.success("Album added successfully");

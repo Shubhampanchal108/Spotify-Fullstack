@@ -4,7 +4,7 @@ import axios from 'axios';
 import { url } from '../App';
 import { toast } from 'react-toastify';
 
-const AddSong = () => {
+const AddSong = ({token}) => {
   const [image, setImage ] = useState(false);
   const [song, setSong] = useState(false);
   const [name, setName] = useState('');
@@ -28,7 +28,9 @@ const AddSong = () => {
       formData.append('audio',song);
       formData.append('album',album);
 
-      const response = await axios.post(`${url}/api/song/add`, formData); //Send Form data to server. 
+      const response = await axios.post(`${url}/api/song/add`, formData, {headers: {
+        'authorization': token,
+      }}); //Send Form data to server. 
 
       if(response.data.success){
         toast.success("Song added successfully");
